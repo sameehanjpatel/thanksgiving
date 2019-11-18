@@ -116,10 +116,34 @@ describe('/api/people routes', () => {
       }
     });
   });
-  xdescribe('POST to /api/people', () => {
+
+  describe('POST to /api/people', () => {
     it('should create a new person and return that persons information if all the required information is given', async () => {
       // HINT: You will be sending data then checking response. No pre-seeding required
       // Make sure you test both the API response and whats inside the database anytime you create, update, or delete from the database
+    return Promises.all().
+    then(
+      () => {
+        return request(app) 
+          .get('/api/people')
+          .expect('Content-Type', /json/) 
+          .expect(200) 
+          .then(response => {
+            const people = response.body;
+            expect(people.length).toBe(2);
+            expect(people).toEqual(
+              expect.arrayContaining([
+                expect.objectContaining(person1),
+                expect.objectContaining(person2),
+              ])
+            );
+          })
+          .catch(err => {
+            fail(err);
+          });
+      }
+    )
+
     });
     it('should return status code 400 if missing required information', async () => {});
   });

@@ -7,6 +7,8 @@ const app = express();
 
 app.use(express.json());
 
+const PORT = 3421
+
 app.use("/api/people", require("./api/people"));
 app.use("/api/dishes", require("./api/dishes"));
 
